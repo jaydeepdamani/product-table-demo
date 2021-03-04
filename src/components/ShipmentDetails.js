@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import {makeStyles} from "@material-ui/core/styles";
+import {useHistory} from 'react-router-dom';
 
 /*Styles Start*/
 const useStyles = makeStyles((theme) => ({
@@ -28,14 +29,15 @@ const useStyles = makeStyles((theme) => ({
 
 /*Styles End*/
 
-const ProductForm = (props) => {
+const ShipmentDetails = (props) => {
 
     const classes = useStyles();
+    const history = useHistory();
 
-    const [name, setName] = useState("");
-    const [qty, setQty] = useState("");
-    const [price, setPrice] = useState("");
-    const [status, setStatus] = useState("");
+    const [address, setAddress] = useState("");
+    const [landmark, setLandmark] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
     const [error, setError] = useState({})
 
     const checkObjectIsEmptyOrNot = (obj) => {
@@ -49,41 +51,36 @@ const ProductForm = (props) => {
     const onSubmit = (e) => {
         e.preventDefault();
         const isValid = formValidation();
-        if(checkObjectIsEmptyOrNot(isValid)){
-            setName('');
-            setQty('');
-            setPrice('');
-            setStatus('');
-            props.addProduct({
-                name,
-                qty,
-                price,
-                status
-            })
+        if (checkObjectIsEmptyOrNot(isValid)) {
+            setAddress('');
+            setLandmark('');
+            setCity('');
+            setState('');
+            history.push('/', { data: props.data})
         }
     }
 
     const formValidation = () => {
         const tmpError = {...error}
-        if(name.trim().length === 0 && name.trim().length < 3 ){
-            tmpError.name = "Please add product name.";
+        if (address.trim().length === 0 && address.trim().length < 3) {
+            tmpError.address = "Please enter address.";
         } else {
-            tmpError.name = ""
+            tmpError.address = ""
         }
-        if(qty.trim().length === 0 && qty.trim().length < 3 ){
-            tmpError.qty = "Please add minimum 1 quantity.";
+        if (landmark.trim().length === 0 && landmark.trim().length < 3) {
+            tmpError.landmark = "Please enter landmark.";
         } else {
-            tmpError.qty = ""
+            tmpError.landmark = ""
         }
-        if(price.trim().length === 0 && price.trim().length < 3 ){
-            tmpError.price = "Please add valid price.";
+        if (city.trim().length === 0 && city.trim().length < 3) {
+            tmpError.city = "Please enter city.";
         } else {
-            tmpError.price = ""
+            tmpError.email = ""
         }
-        if(status.trim().length === 0 ){
-            tmpError.status = "Please add status.";
+        if (state.trim().length === 0 && state.trim().length < 3) {
+            tmpError.state = "Please enter state.";
         } else {
-            tmpError.status = ""
+            tmpError.state = ""
         }
         setError(tmpError)
         return tmpError
@@ -94,43 +91,44 @@ const ProductForm = (props) => {
             <form noValidate autoComplete="off" onSubmit={onSubmit}>
                 <Box mb={2}>
                     <TextField fullWidth
-                               name="name"
-                               value={name}
+                               name="address"
+                               value={address}
                                onChange={(e) => {
-                                   setName(e.target.value)
+                                   setAddress(e.target.value)
                                }}
-                               label="Item Name"/>
-                    {error && error.name && <div className={classes.errMsg}>{error.name}</div>}
+                               label="Address"/>
+                    {error && error.address && <div className={classes.errMsg}>{error.address}</div>}
                 </Box>
                 <Box mb={2}>
                     <TextField fullWidth
-                               name="qty"
-                               value={qty}
+                               name="landmark"
+                               value={landmark}
                                onChange={(e) => {
-                                   setQty(e.target.value)
+                                   setLandmark(e.target.value)
                                }}
-                               label="Quantity"/>
-                    {error && error.qty && <div className={classes.errMsg}>{error.qty}</div>}
+                               label="Landmark"/>
+                    {error && error.landmark && <div className={classes.errMsg}>{error.landmark}</div>}
                 </Box>
                 <Box mb={2}>
                     <TextField fullWidth
-                               name="price"
-                               value={price}
+                               name="city"
+                               value={city}
                                onChange={(e) => {
-                                   setPrice(e.target.value)
+                                   setCity(e.target.value)
                                }}
-                               label="Price"/>
-                    {error && error.price && <div className={classes.errMsg}>{error.price}</div>}
+                               label="City"/>
+                    {error && error.city && <div className={classes.errMsg}>{error.city}</div>}
                 </Box>
+
                 <Box mb={2}>
                     <TextField fullWidth
-                               name="status"
-                               value={status}
+                               name="state"
+                               value={state}
                                onChange={(e) => {
-                                   setStatus(e.target.value)
+                                   setState(e.target.value)
                                }}
-                               label="Status"/>
-                    {error && error.status && <div className={classes.errMsg}>{error.status}</div>}
+                               label="State"/>
+                    {error && error.state && <div className={classes.errMsg}>{error.state}</div>}
                 </Box>
                 <Box align="center">
                     <button className={classes.addBtn} spacing={2}
@@ -143,4 +141,4 @@ const ProductForm = (props) => {
     )
 }
 
-export default ProductForm;
+export default ShipmentDetails;

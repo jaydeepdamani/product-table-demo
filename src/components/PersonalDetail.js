@@ -28,14 +28,13 @@ const useStyles = makeStyles((theme) => ({
 
 /*Styles End*/
 
-const ProductForm = (props) => {
+const PersonalDetail = (props) => {
 
     const classes = useStyles();
 
     const [name, setName] = useState("");
-    const [qty, setQty] = useState("");
-    const [price, setPrice] = useState("");
-    const [status, setStatus] = useState("");
+    const [mobile, setMobile] = useState("");
+    const [email, setEmail] = useState("");
     const [error, setError] = useState({})
 
     const checkObjectIsEmptyOrNot = (obj) => {
@@ -49,41 +48,30 @@ const ProductForm = (props) => {
     const onSubmit = (e) => {
         e.preventDefault();
         const isValid = formValidation();
-        if(checkObjectIsEmptyOrNot(isValid)){
+        if (checkObjectIsEmptyOrNot(isValid)) {
             setName('');
-            setQty('');
-            setPrice('');
-            setStatus('');
-            props.addProduct({
-                name,
-                qty,
-                price,
-                status
-            })
+            setMobile('');
+            setEmail('');
+            props.handleNext();
         }
     }
 
     const formValidation = () => {
         const tmpError = {...error}
-        if(name.trim().length === 0 && name.trim().length < 3 ){
-            tmpError.name = "Please add product name.";
+        if (name.trim().length === 0 && name.trim().length < 3) {
+            tmpError.name = "Please enter valid name.";
         } else {
             tmpError.name = ""
         }
-        if(qty.trim().length === 0 && qty.trim().length < 3 ){
-            tmpError.qty = "Please add minimum 1 quantity.";
+        if (mobile.trim().length === 0 && mobile.trim().length < 3) {
+            tmpError.mobile = "Please enter valid mobile number.";
         } else {
-            tmpError.qty = ""
+            tmpError.mobile = ""
         }
-        if(price.trim().length === 0 && price.trim().length < 3 ){
-            tmpError.price = "Please add valid price.";
+        if (email.trim().length === 0 && email.trim().length < 3) {
+            tmpError.email = "Please enter valid email address.";
         } else {
-            tmpError.price = ""
-        }
-        if(status.trim().length === 0 ){
-            tmpError.status = "Please add status.";
-        } else {
-            tmpError.status = ""
+            tmpError.email = ""
         }
         setError(tmpError)
         return tmpError
@@ -99,43 +87,33 @@ const ProductForm = (props) => {
                                onChange={(e) => {
                                    setName(e.target.value)
                                }}
-                               label="Item Name"/>
+                               label="Name"/>
                     {error && error.name && <div className={classes.errMsg}>{error.name}</div>}
                 </Box>
                 <Box mb={2}>
                     <TextField fullWidth
-                               name="qty"
-                               value={qty}
+                               name="mobile"
+                               value={mobile}
                                onChange={(e) => {
-                                   setQty(e.target.value)
+                                   setMobile(e.target.value)
                                }}
-                               label="Quantity"/>
-                    {error && error.qty && <div className={classes.errMsg}>{error.qty}</div>}
+                               label="Mobile"/>
+                    {error && error.mobile && <div className={classes.errMsg}>{error.mobile}</div>}
                 </Box>
                 <Box mb={2}>
                     <TextField fullWidth
-                               name="price"
-                               value={price}
+                               name="email"
+                               value={email}
                                onChange={(e) => {
-                                   setPrice(e.target.value)
+                                   setEmail(e.target.value)
                                }}
-                               label="Price"/>
-                    {error && error.price && <div className={classes.errMsg}>{error.price}</div>}
-                </Box>
-                <Box mb={2}>
-                    <TextField fullWidth
-                               name="status"
-                               value={status}
-                               onChange={(e) => {
-                                   setStatus(e.target.value)
-                               }}
-                               label="Status"/>
-                    {error && error.status && <div className={classes.errMsg}>{error.status}</div>}
+                               label="Email"/>
+                    {error && error.email && <div className={classes.errMsg}>{error.email}</div>}
                 </Box>
                 <Box align="center">
                     <button className={classes.addBtn} spacing={2}
                             variant="contained" color="primary">
-                        Add
+                        Next
                     </button>
                 </Box>
             </form>
@@ -143,4 +121,4 @@ const ProductForm = (props) => {
     )
 }
 
-export default ProductForm;
+export default PersonalDetail;

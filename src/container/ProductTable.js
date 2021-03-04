@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {useHistory} from 'react-router-dom';
+import {useHistory, withRouter} from 'react-router-dom';
 
 /*Material UI*/
 import Container from '@material-ui/core/Container';
@@ -242,7 +242,7 @@ const stableSort = (array, comparator) => {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const ProductTable = () => {
+const ProductTable = (props) => {
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('qty');
@@ -334,8 +334,22 @@ const ProductTable = () => {
         }
     }, [searchTerm]);
 
+    useEffect(() => {
+        if(props?.location?.state?.data) {
+            const tmpProductArray = [...products]
+            props?.location?.state?.data.map(itm => {
+                if(tmpProductArray.find(item => item.name === itm.name)) {
+                    const index = tmpProductArray.findIndex(item => item.name === itm.name)
+                    tmpProductArray[index].status = "Added"
+                }
+            })
+            setProducts(tmpProductArray)
+        }
+    }, [props.location.state])
+
     return (
         <React.Fragment>
+            {console.log('calll', props)}
             <Container maxWidth="lg">
                 <Box py={5}>
                     <div className={classes.root}>
@@ -479,4 +493,4 @@ const ProductTable = () => {
     )
 }
 
-export default ProductTable;
+export default withRouter(ProductTable);
